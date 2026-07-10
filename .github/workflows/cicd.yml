@@ -24,7 +24,7 @@ jobs:
             - name: python set up
               uses: actions/setup-python@v4
               with:  
-                python-version: $python_version
+                python-version: ${{ env.python_version }}
             - name: Install pytest
               run: pip install -r requirements.txt
             - name: unit test
