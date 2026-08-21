@@ -1,19 +1,21 @@
 name: UTC App  CI/CD
 
 on:
-  push:
+  push:zzzzz
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+
 permissions:
   id-token: write
   contents: read
+
 env:
     python_version: 3.11
     IMAGE_NAME: portfolio
     AWS_REGION: us-east-1
-    ACOUNT_ID: ${{secrets.ACOUNT_ID}}
-    ECR_REPO: $ACOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME
+    ACCOUNT_ID: ${{secrets.ACCOUNT_ID}}
+    ECR-REPO: $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME
 
 jobs:
     build:
@@ -23,19 +25,24 @@ jobs:
               uses: actions/checkout@v4
             - name: python set up
               uses: actions/setup-python@v4
-              with:  
-                python-version: ${{ env.python_version }}
-            - name: Install pytest
-              run: pip install -r requirements.txt
+              with: 
+                  python-version: ${{env.python_version}}
+            - name: Instal pytest
+              run: pip install -r requirments.txt
             - name: unit test
               run: pytest test.py
-            - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v3
             - name: Configure AWS credentials using OIDC
               uses: aws-actions/configure-aws-credentials@v2
               with:
-                role-to-assume: ${{ secrets.ROLE_ARN }}
-                aws-region: ${{ env.AWS_REGION }}
-            - name: running some tests
+                role-to-assume: ${{secrets.ROLE_ARN}}
+                aws-region: ${{env.AWS_REGION}}
+            - name: Build image
+              run: docker build -t ywet/my-portfolio_2 .
+
+            - name: Check credentials
               run: aws s3 ls
+
+
+
+
 
