@@ -1,7 +1,7 @@
 name: UTC App  CI/CD
 
 on:
-  push:zzzzz
+  push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
